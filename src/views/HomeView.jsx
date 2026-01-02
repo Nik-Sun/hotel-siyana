@@ -1,13 +1,14 @@
+import { galleryImages } from '../data/heroImages.js'
 export default function HomeView({ onSeeRooms }) {
     return (
         <section className="view hero">
             <div className="container hero-inner">
                 <div className="hero-text">
-                    <h1>Семеен хотел „Сияна“ – Равда</h1>
-                    <p>
-                        Малък семеен хотел с уютна атмосфера и стаи с източно изложение и гледка към морето –
-                        идеален за по-дълги престои и спокойна семейна почивка.
-                    </p>
+                    <h1>Семеен хотел „Сияна“ - Вашето спокойно място в Равда</h1>
+                    <h2>
+                        Уютен семеен хотел на крачки от морето, подходящ за семейства с деца,
+                        двойки и приятелски компании, които търсят тишина, чистота и истинска почивка.
+                    </h2>
                     <ul className="hero-highlights">
                         <li>Всички стаи с тераса и морска гледка</li>
                         <li>Безплатен Wi-Fi</li>
@@ -18,8 +19,10 @@ export default function HomeView({ onSeeRooms }) {
                     </button>
                 </div>
                 <div className="hero-image">
-                    <div className="hero-image-placeholder">
-                        Снимка на хотела / морето
+                    <div className="hero-image">
+                        <img
+                            src={galleryImages[1].src}
+                            alt={galleryImages[1].alt} />
                     </div>
                 </div>
             </div>
