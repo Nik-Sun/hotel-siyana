@@ -48,7 +48,7 @@ export default function App() {
       <header className="site-header">
         <div className="container header-inner">
           <div className="logo">
-            <span className="logo-main">Сияна</span>
+            <span className="logo-main">Siana House</span>
             <span className="logo-sub">Семеен хотел · Равда</span>
           </div>
           <nav className="main-nav">

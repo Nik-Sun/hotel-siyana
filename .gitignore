@@ -2,6 +2,7 @@
 node_modules/
 old-static-version/node_modules/
 old-static-version/dist/
+old-static-version/
 
 # Build output
 dist/
