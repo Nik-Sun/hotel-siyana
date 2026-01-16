@@ -73,7 +73,7 @@ export default function ContactView() {
                         <p>
                             Телефон: <a href="tel:+359879168715">+359 879168715</a><br />
                             Телефон: <a href="tel:+359882715141">+359 882715141</a><br />
-                            Имейл: <a href="mailto:info@hotelsiyana.bg">info@hotelsiyana.bg</a>
+                            Имейл: <a href="mailto:hotelsiana@gmail.com">hotelsiana@gmail.com</a>
                         </p>
                         <p>
                             Адрес: <br />

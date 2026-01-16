@@ -64,13 +64,14 @@ img {
 }
 
 .logo-main {
-    font-family: 'Great Vibes';
-    font-weight: 100np;
+    font-family: 'Playpen Sans';
     font-size: 1.2rem;
     letter-spacing: 0.05em;
     text-transform: uppercase;
     color: #0b5d7c;
 }
+
+
 
 .logo-sub {
     font-size: 0.8rem;
