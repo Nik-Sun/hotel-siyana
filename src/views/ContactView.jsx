@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import emailjs from '@emailjs/browser';
-
+import { useTranslation } from 'react-i18next';
 
 const SERVICE_ID = 'service_9m9ljqj';
 const TEMPLATE_ID = 'template_2kcw5yd';
@@ -11,7 +11,7 @@ export default function ContactView() {
     const formRef = useRef(null);
     const [status, setStatus] = useState({ type: null, message: '' });
     const [isSending, setIsSending] = useState(false);
-
+    const { t } = useTranslation();
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -21,10 +21,14 @@ export default function ContactView() {
         const email = form.elements['email']?.value.trim();
         const message = form.elements['message']?.value.trim();
 
+        const formErrorMessage = t('contacts.formErrorMessage');
+        const formSuccessMessage = t('contacts.formSuccessMessage')
+        const emailJsError = t('contacts.emailJsError');
+
         if (!name || !email || !message) {
             setStatus({
                 type: 'error',
-                message: 'Моля, попълнете име, имейл и съобщение.',
+                message: formErrorMessage,
             });
             return;
         }
@@ -40,8 +44,7 @@ export default function ContactView() {
                 () => {
                     setStatus({
                         type: 'success',
-                        message:
-                            'Вашето запитване беше изпратено успешно. Ще се свържем с вас при първа възможност.',
+                        message: formSuccessMessage,
                     });
                     formRef.current.reset();
                 },
@@ -49,8 +52,7 @@ export default function ContactView() {
                     console.error('EmailJS error:', error);
                     setStatus({
                         type: 'error',
-                        message:
-                            'Възникна грешка при изпращане на запитването. Моля, опитайте отново по-късно или използвайте директно имейла/телефона.',
+                        message: emailJsError,
                     });
                 }
             )
@@ -59,76 +61,78 @@ export default function ContactView() {
             });
     };
 
+    const buttonState = t('contacts.buttonState');
+    const buttonStateSending = t('contacts.buttonStateSending');
     return (
         <section className="view section section-alt">
             <div className="container">
-                <h2>Контакти</h2>
+                <h2>{t('contacts.title')}</h2>
                 <p className="section-intro">
-                    Свържете се с нас за повече информация относно наличности, пакети и дългосрочни престои.
+                    {t('contacts.intro')}
                 </p>
 
                 <div className="contact-layout">
                     <div className="contact-details">
-                        <h3>Данни за връзка</h3>
+                        <h3>{t('contacts.contactHeader')}</h3>
                         <p>
-                            Телефон: <a href="tel:+359879168715">+359 879168715</a><br />
-                            Телефон: <a href="tel:+359882715141">+359 882715141</a><br />
-                            Имейл: <a href="mailto:hotelsiana@gmail.com">hotelsiana@gmail.com</a>
+                            {t('contacts.phone')}: <a href="tel:+359879168715">+359 879168715</a><br />
+                            {t('contacts.phone')}: <a href="tel:+359882715141">+359 882715141</a><br />
+                            {t('contacts.email')}: <a href="mailto:hotelsiana@gmail.com">hotelsiana@gmail.com</a>
                         </p>
                         <p>
-                            Адрес: <br />
-                            ул. „Лагуна“ 2, 8238 Равда
+                            {t('contacts.address')}: <br />
+                            {t('contacts.addressText')}
                         </p>
                     </div>
 
                     <div className="contact-form-wrapper">
-                        <h3>Форма за контакт</h3>
+                        <h3>{t('contacts.formTitle')}</h3>
                         <form
                             ref={formRef}
                             className="contact-form"
                             onSubmit={handleSubmit}
                         >
                             <div>
-                                <label htmlFor="user_name">Име</label>
+                                <label htmlFor="user_name">{t('contacts.name')}</label>
                                 <input
                                     type="text"
                                     id="user_name"
                                     name="name"
-                                    placeholder="Вашето име"
+                                    placeholder={t('contacts.namePlaceholder')}
                                     required
                                 />
                             </div>
 
                             <div>
-                                <label htmlFor="user_email">Имейл</label>
+                                <label htmlFor="user_email">{t('contacts.email')}</label>
                                 <input
                                     type="email"
                                     id="user_email"
                                     name="email"
-                                    placeholder="Вашият имейл"
+                                    placeholder={t('contacts.emailPlaceholder')}
                                     required
                                 />
                             </div>
 
                             <div>
                                 <label htmlFor="user_phone">
-                                    Телефон (по желание)
+                                    {t('contacts.phoneInput')}
                                 </label>
                                 <input
                                     type="tel"
                                     id="user_phone"
                                     name="phone"
-                                    placeholder="Телефон за връзка"
+                                    placeholder={t('contacts.phonePlaceholder')}
                                 />
                             </div>
 
                             <div>
-                                <label htmlFor="message">Съобщение</label>
+                                <label htmlFor="message">{t('contacts.message')}</label>
                                 <textarea
                                     id="message"
                                     name="message"
                                     rows="4"
-                                    placeholder="Период на престой, брой гости, предпочитан тип стая..."
+                                    placeholder={t('contacts.messagePlaceholder')}
                                     required
                                 ></textarea>
                             </div>
@@ -138,9 +142,10 @@ export default function ContactView() {
                                 className="btn-primary"
                                 disabled={isSending}
                             >
-                                {isSending
-                                    ? 'Изпращане...'
-                                    : 'Изпрати запитване'}
+                                {
+                                    isSending
+                                        ? buttonState
+                                        : buttonStateSending}
                             </button>
 
                             {status.type && (

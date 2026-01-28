@@ -1,16 +1,14 @@
-import { useState } from 'react';
-import { galleryImages } from '../data/galleryImages';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { galleryImages } from "../data/galleryImages";
 
 export default function GalleryView() {
+    const { t } = useTranslation();
+
     const [lightboxIndex, setLightboxIndex] = useState(null);
 
-    const openLightbox = (index) => {
-        setLightboxIndex(index);
-    };
-
-    const closeLightbox = () => {
-        setLightboxIndex(null);
-    };
+    const openLightbox = (index) => setLightboxIndex(index);
+    const closeLightbox = () => setLightboxIndex(null);
 
     const showPrev = () => {
         setLightboxIndex((current) => {
@@ -29,48 +27,42 @@ export default function GalleryView() {
     return (
         <section className="view section">
             <div className="container">
-                <h2>Галерия</h2>
-                <p className="section-intro">
-                    Разгледайте някои от моментите и атмосферата в семеен хотел „Siana House“ –
-                    стаи, тераси с гледка към морето, общи части и околността на Равда.
-                </p>
+                <h2>{t("gallery.h2", "Галерия")}</h2>
+
+                <p className="section-intro">{t("gallery.p")}</p>
 
                 <div className="gallery-grid">
-                    {galleryImages.map((img, index) => (
-                        <figure
-                            key={img.id}
-                            className="gallery-item"
-                            onClick={() => openLightbox(index)}
-                        >
-                            <img src={img.src} alt={img.alt} loading="lazy" />
-                            {img.caption && (
-                                <figcaption>{img.caption}</figcaption>
-                            )}
-                        </figure>
-                    ))}
+                    {galleryImages.map((img, index) => {
+                        const alt = t(img.altKey, { defaultValue: "" });
+                        const caption = t(img.captionKey, { defaultValue: "" });
+
+                        return (
+                            <figure
+                                key={img.id}
+                                className="gallery-item"
+                                onClick={() => openLightbox(index)}
+                            >
+                                <img src={img.src} alt={alt} loading="lazy" />
+                                {caption && <figcaption>{caption}</figcaption>}
+                            </figure>
+                        );
+                    })}
                 </div>
             </div>
 
             {lightboxIndex !== null && (
-                <div
-                    className="lightbox-overlay"
-                    onClick={closeLightbox}
-                >
-                    <div
-                        className="lightbox"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <button
-                            className="lightbox-close"
-                            onClick={closeLightbox}
-                        >
+                <div className="lightbox-overlay" onClick={closeLightbox}>
+                    <div className="lightbox" onClick={(e) => e.stopPropagation()}>
+                        <button className="lightbox-close" onClick={closeLightbox}>
                             ✕
                         </button>
 
-                        <img
-                            src={galleryImages[lightboxIndex].src}
-                            alt={galleryImages[lightboxIndex].alt}
-                        />
+                        {(() => {
+                            const img = galleryImages[lightboxIndex];
+                            const alt = t(img.altKey, { defaultValue: "" });
+
+                            return <img src={img.src} alt={alt} />;
+                        })()}
 
                         <button
                             className="lightbox-prev"
@@ -81,6 +73,7 @@ export default function GalleryView() {
                         >
                             ‹
                         </button>
+
                         <button
                             className="lightbox-next"
                             onClick={(e) => {

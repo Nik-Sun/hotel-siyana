@@ -4,7 +4,9 @@ import RoomsView from './views/RoomsView.jsx';
 import GalleryView from './views/GalleryView.jsx';
 import LocationView from './views/LocationView.jsx';
 import ContactView from './views/ContactView.jsx';
+import LanguageSwitcher from "./views/LanguageSwitcher.jsx";
 
+import { useTranslation } from 'react-i18next';
 const VIEWS = ['home', 'rooms', 'gallery', 'location', 'contact'];
 
 function getInitialView() {
@@ -14,7 +16,7 @@ function getInitialView() {
 
 export default function App() {
   const [view, setView] = useState(getInitialView);
-
+  const { t } = useTranslation();
   // синхронизираме със hash в URL
   useEffect(() => {
     function onHashChange() {
@@ -48,8 +50,8 @@ export default function App() {
       <header className="site-header">
         <div className="container header-inner">
           <div className="logo">
-            <span className="logo-main">Siana House</span>
-            <span className="logo-sub">Семеен хотел · Равда</span>
+            <span className="logo-main">{t('header.logoMain')}</span>
+            <span className="logo-sub">{t('header.logoSub')}</span>
           </div>
           <nav className="main-nav">
             <a
@@ -57,37 +59,39 @@ export default function App() {
               onClick={handleNavClick('home')}
               className={view === 'home' ? 'active-nav' : ''}
             >
-              Начало
+              {t('header.nav.home')}
             </a>
             <a
               href="#rooms"
               onClick={handleNavClick('rooms')}
               className={view === 'rooms' ? 'active-nav' : ''}
             >
-              Стаи
+              {t('header.nav.rooms')}
             </a>
             <a
               href="#gallery"
               onClick={handleNavClick('gallery')}
               className={view === 'gallery' ? 'active-nav' : ''}
             >
-              Галерия
+              {t('header.nav.gallery')}
             </a>
             <a
               href="#location"
               onClick={handleNavClick('location')}
               className={view === 'location' ? 'active-nav' : ''}
             >
-              Локация
+              {t('header.nav.location')}
             </a>
             <a
               href="#contact"
               onClick={handleNavClick('contact')}
               className={view === 'contact' ? 'active-nav' : ''}
             >
-              Контакти
+              {t('header.nav.contact')}
             </a>
+
           </nav>
+          <LanguageSwitcher />
         </div>
       </header>
 
@@ -102,7 +106,7 @@ export default function App() {
       <footer className="site-footer">
         <div className="container footer-inner">
           <p>
-            © {new Date().getFullYear()} Семеен хотел „Сияна“, Равда. Всички права запазени.
+            {t('footer.rights', { year: new Date().getFullYear() })}
           </p>
         </div>
       </footer>
