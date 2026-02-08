@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nik-sun.github.io/hotel-siyana/sitemap.xml
