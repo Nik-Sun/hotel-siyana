@@ -15,7 +15,7 @@
     content="Семеен хотел Siana House в Равда - комфортни стаи, близо до плажа, удобно за семейства, двойки и дълъг престой. Свържете се с нас за наличности." />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <meta name="theme-color" content="#ffffff" />
-  <link rel="canonical" href="https://nik-sun.github.io/hotel-siyana/" />
+  <link rel="canonical" href="https://www.hotelsiana.com/" />
 
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Siana House" />
@@ -25,15 +25,31 @@
   <meta property="og:title" content="Семеен хотел Siana House | Равда" />
   <meta property="og:description"
     content="Семеен хотел Siana House в Равда - комфортни стаи, близо до плажа, удобно за семейства, двойки и дълъг престой." />
-  <meta property="og:url" content="https://nik-sun.github.io/hotel-siyana/" />
-  <meta property="og:image" content="https://nik-sun.github.io/hotel-siyana/favicon.ico" />
+  <meta property="og:url" content="https://www.hotelsiana.com/" />
+  <meta property="og:image" content="https://www.hotelsiana.com/favicon.ico" />
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Семеен хотел Siana House | Равда" />
   <meta name="twitter:description"
     content="Семеен хотел Siana House в Равда - комфортни стаи, близо до плажа, удобно за семейства, двойки и дълъг престой." />
-  <meta name="twitter:image" content="https://nik-sun.github.io/hotel-siyana/favicon.ico" />
-  <script type="module" crossorigin src="/assets/index-C1rSrfc7.js"></script>
+  <meta name="twitter:image" content="https://www.hotelsiana.com/favicon.ico" />
+
+  <script>
+    (function restoreSpaPath() {
+      var params = new URLSearchParams(window.location.search);
+      var redirect = params.get('redirect');
+      if (!redirect) return;
+
+      try {
+        var redirectUrl = new URL(redirect, window.location.origin);
+        if (redirectUrl.origin !== window.location.origin) return;
+        window.history.replaceState(null, '', redirectUrl.pathname + redirectUrl.search + redirectUrl.hash);
+      } catch (_err) {
+        // Ignore invalid redirect payloads.
+      }
+    })();
+  </script>
+  <script type="module" crossorigin src="/assets/index-Cvu8aGCa.js"></script>
   <link rel="stylesheet" crossorigin href="/assets/index-DcaFeJGY.css">
 </head>
 

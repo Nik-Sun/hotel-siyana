@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nik-sun.github.io/hotel-siyana/sitemap.xml
+Sitemap: https://www.hotelsiana.com/sitemap.xml
