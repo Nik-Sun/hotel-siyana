@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
-import bgFlag from "../assets/flags/bg.svg";
-import enFlag from "../assets/flags/gb.svg";
+import bgFlag from "../assets/flags/bg2.svg";
+import enFlag from "../assets/flags/gb2.svg";
+import ruFlag from "../assets/flags/ru.svg";
 
 export default function LanguageSwitcher() {
     const { i18n } = useTranslation();
@@ -28,6 +29,15 @@ export default function LanguageSwitcher() {
                 title="EN"
             >
                 <img src={enFlag} alt="English" />
+            </button>
+            <button
+                type="button"
+                className={`lang-btn ${current?.startsWith("ru") ? "active" : ""}`}
+                onClick={setLang("ru")}
+                aria-label="Switch to Russian"
+                title="RU"
+            >
+                <img src={ruFlag} alt="Russian" />
             </button>
         </div>
     );

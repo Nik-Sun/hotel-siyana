@@ -1,5 +1,5 @@
 {
-  "homepage": "https://Nik-Sun.github.io/hotel-siyana/",
+  "homepage": "https://www.hotelsiana.com/",
   "name": "hotel-siyana",
   "private": true,
   "version": "0.0.0",
@@ -31,3 +31,4 @@
     "vite": "^7.2.4"
   }
 }
+

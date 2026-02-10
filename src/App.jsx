@@ -7,42 +7,65 @@ import ContactView from './views/ContactView.jsx';
 import LanguageSwitcher from "./views/LanguageSwitcher.jsx";
 
 import { useTranslation } from 'react-i18next';
-const VIEWS = ['home', 'rooms', 'gallery', 'location', 'contact'];
 
-function getInitialView() {
-  const hash = window.location.hash.replace('#', '');
-  return VIEWS.includes(hash) ? hash : 'home';
+const VIEW_PATHS = {
+  home: '/',
+  rooms: '/rooms',
+  gallery: '/gallery',
+  location: '/location',
+  contact: '/contact',
+};
+
+const PATH_VIEWS = Object.fromEntries(
+  Object.entries(VIEW_PATHS).map(([view, path]) => [path, view])
+);
+
+function normalizePath(pathname) {
+  if (!pathname) return '/';
+  const normalized = pathname.replace(/\/+$/, '');
+  return normalized || '/';
+}
+
+function getViewFromPathname(pathname) {
+  const path = normalizePath(pathname);
+  return PATH_VIEWS[path] || 'home';
 }
 
 export default function App() {
-  const [view, setView] = useState(getInitialView);
+  const [view, setView] = useState(() => getViewFromPathname(window.location.pathname));
   const { t } = useTranslation();
-  // синхронизираме със hash в URL
+
+  function navigateToView(targetView) {
+    const nextPath = VIEW_PATHS[targetView] || '/';
+    const currentPath = normalizePath(window.location.pathname);
+    setView(targetView);
+    if (currentPath !== nextPath) {
+      window.history.pushState({}, '', nextPath);
+    }
+  }
+
+  // синхронизираме със path в URL
   useEffect(() => {
-    function onHashChange() {
-      const hash = window.location.hash.replace('#', '');
-      if (VIEWS.includes(hash)) {
-        setView(hash);
-      } else {
-        setView('home');
-      }
+    function onPopState() {
+      setView(getViewFromPathname(window.location.pathname));
     }
 
-    window.addEventListener('hashchange', onHashChange);
-    return () => window.removeEventListener('hashchange', onHashChange);
+    const initialPath = normalizePath(window.location.pathname);
+    if (!PATH_VIEWS[initialPath]) {
+      window.history.replaceState({}, '', '/');
+      setView('home');
+    }
+
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
   }, []);
 
-  // при промяна на view обновяваме hash-а
-  useEffect(() => {
-    const newHash = `#${view}`;
-    if (window.location.hash !== newHash) {
-      window.location.hash = newHash;
-    }
-  }, [view]);
-
   const handleNavClick = (targetView) => (e) => {
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
+      return;
+    }
     e.preventDefault();
-    setView(targetView);
+    navigateToView(targetView);
   };
 
   return (
@@ -55,35 +78,35 @@ export default function App() {
           </div>
           <nav className="main-nav">
             <a
-              href="#home"
+              href={VIEW_PATHS.home}
               onClick={handleNavClick('home')}
               className={view === 'home' ? 'active-nav' : ''}
             >
               {t('header.nav.home')}
             </a>
             <a
-              href="#rooms"
+              href={VIEW_PATHS.rooms}
               onClick={handleNavClick('rooms')}
               className={view === 'rooms' ? 'active-nav' : ''}
             >
               {t('header.nav.rooms')}
             </a>
             <a
-              href="#gallery"
+              href={VIEW_PATHS.gallery}
               onClick={handleNavClick('gallery')}
               className={view === 'gallery' ? 'active-nav' : ''}
             >
               {t('header.nav.gallery')}
             </a>
             <a
-              href="#location"
+              href={VIEW_PATHS.location}
               onClick={handleNavClick('location')}
               className={view === 'location' ? 'active-nav' : ''}
             >
               {t('header.nav.location')}
             </a>
             <a
-              href="#contact"
+              href={VIEW_PATHS.contact}
               onClick={handleNavClick('contact')}
               className={view === 'contact' ? 'active-nav' : ''}
             >
@@ -96,7 +119,7 @@ export default function App() {
       </header>
 
       <main id="app">
-        {view === 'home' && <HomeView onSeeRooms={() => setView('rooms')} />}
+        {view === 'home' && <HomeView onSeeRooms={() => navigateToView('rooms')} />}
         {view === 'rooms' && <RoomsView />}
         {view === 'gallery' && <GalleryView />}
         {view === 'location' && <LocationView />}

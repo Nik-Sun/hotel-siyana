@@ -144,8 +144,8 @@ export default function ContactView() {
                             >
                                 {
                                     isSending
-                                        ? buttonState
-                                        : buttonStateSending}
+                                        ? buttonStateSending
+                                        : buttonState}
                             </button>
 
                             {status.type && (
